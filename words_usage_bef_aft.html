@@ -2,7 +2,7 @@
 <!-- saved from url=(0050)http://xliberation.com/googlecharts/d3concept.html -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   
-  <title>Words usage before and after election</title>
+  <title>Word usage before and after election</title>
 <!--<base href="https://storage.googleapis.com/xliberation.com/">--><base href=".">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <link rel="stylesheet" type="text/css" href="./d3.js concept browser - ramblings.mcpher.com_files/d3direct.css">
@@ -23,6 +23,8 @@
  
 
   <script type="text/javascript">
+  dateLabelSize=8;
+  nodeLabelSize=40;
    google.load("jquery", "1");
    google.setOnLoadCallback(function() {
         initialize().then (
@@ -160,8 +162,13 @@
             .attr("text-anchor", function(d) { 
                 return !d.right ? 'start' : 'start' ;
             })
-            .style("font-size",control.options.labelFontSize + "px")
-            .text(function(d) {
+            .style("font-size",function(d){
+                if(d.key.match(/\d{4}-\d{2}-\d{2}/)){
+                    return dateLabelSize;
+                }else
+                    return nodeLabelSize;
+                //return control.options.labelFontSize + "px";
+            }).text(function(d) {
                 return d.shortName ? d.shortName : d.name;
             });
 
@@ -176,7 +183,14 @@
             .attr("class", "text")
             .attr("text-anchor", function(d) { 
                 return !d.right ? 'start' : 'start' ;})
-            .style("font-size",control.options.labelFontSize + "px")
+            .style("font-size",function(d){
+                if(d.key.match(/\d{4}-\d{2}-\d{2}/)){
+                    return dateLabelSize;
+                }else
+                    return nodeLabelSize;
+                //return control.options.labelFontSize + "px";
+            })
+            //.style("font-size",control.options.labelFontSize + "px")
             .text(function(d) {
                 return d.shortName ? d.shortName : d.name;
             })
@@ -516,7 +530,7 @@ function focusNode(){
         name: "n_weeks",
         label: "n_weeks",
         editable:false,
-        cell: "number" // Renders the value in an HTML anchor element
+        cell: "integer" // Renders the value in an HTML anchor element
     }, {
         name: "tf",
         label: "usage",
@@ -526,7 +540,7 @@ function focusNode(){
         name: "diff",
         label: "diff",
         editable:false,
-        cell: "number" // A cell type for floating point value, defaults to have a precision 2 decimal numbers
+        cell: "integer" // A cell type for floating point value, defaults to have a precision 2 decimal numbers
     }, {
         name: "owner",
         label: "owner",
@@ -575,7 +589,7 @@ function focusNode(){
 <body style="width:auto;margin:auto;">
     <div style="right:10px;width:70%;
     position: absolute;
-    font-size:3em;">Words usage before and after 2016 United States presidential election (November 8)</div>
+    font-size:3em;">Word usage before and after 2016 United States presidential election (November 8)</div>
     <div style="position: absolute;width:99%;height:99%;margin-top:0.5em;">
         <div>Source: The Economist articles (<a href="http://www.economist.com">www.economist.com</a>)</div>
         <div style="width:20%;float:left;">
